@@ -4,7 +4,13 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { message, history, systemPrompt } = req.body;
+        let body = req.body;
+
+        if (typeof body === "string") {
+            body = JSON.parse(body);
+        }
+
+        const { message, history, systemPrompt } = body;
 
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
